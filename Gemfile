@@ -40,6 +40,9 @@ group :development, :test do
   # Test Suite
   gem 'factory_girl_rails'
   gem 'rspec-rails'
+
+  # Better errors
+  gem 'better_errors'
 end
 
 group :development do
@@ -60,3 +63,4 @@ end
 
 gem 'figaro'
 gem 'devise'
+gem 'bootstrap-sass'
