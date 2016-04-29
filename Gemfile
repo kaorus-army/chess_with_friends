@@ -61,6 +61,5 @@ group :production do
   gem 'rails_12factor'
 end
 
-gem 'figaro'
 gem 'devise'
 gem 'bootstrap-sass'
