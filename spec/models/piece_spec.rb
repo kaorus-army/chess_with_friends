@@ -30,4 +30,6 @@ RSpec.describe Piece, type: :model do
     piece = build(:isolated_piece)
     expect(piece).to_not be_valid
   end
+
+  
 end
