@@ -31,5 +31,67 @@ RSpec.describe Piece, type: :model do
     expect(piece).to_not be_valid
   end
 
-  
+  describe "#obstructed_horizontal?" do
+
+    before(:example) do
+      @game = create(:game)
+    end
+
+    it "should return true if piece is obstructed to the left" do
+      pawn1 = @game.pieces.create({
+        color: "white",
+        x_pos: 1,
+        y_pos: 1,
+        captured: false
+      })
+      pawn2 = @game.pieces.create({
+        color: "white",
+        x_pos: 3,
+        y_pos: 1,
+        captured: false
+      })
+
+      expect(pawn2.obstructed_horizontal?([0, 1])).to eq true
+    end
+
+    it "should return true if piece is obstructed to the right" do
+      pawn1 = @game.pieces.create({
+        color: "white",
+        x_pos: 1,
+        y_pos: 1,
+        captured: false
+      })
+      pawn2 = @game.pieces.create({
+        color: "white",
+        x_pos: 3,
+        y_pos: 1,
+        captured: false
+      })
+
+      expect(pawn1.obstructed_horizontal?([4, 1])).to eq true
+    end
+
+    it "should return false if piece is not obstructed to the left" do
+      pawn2 = @game.pieces.create({
+        color: "white",
+        x_pos: 3,
+        y_pos: 1,
+        captured: false
+      })
+
+      expect(pawn2.obstructed_horizontal?([0, 1])).to eq false
+    end
+
+    it "should return true if piece is not obstructed to the right" do
+      pawn1 = @game.pieces.create({
+        color: "white",
+        x_pos: 1,
+        y_pos: 1,
+        captured: false
+      })
+
+      expect(pawn1.obstructed_horizontal?([4, 1])).to eq false
+    end
+
+  end
 end
