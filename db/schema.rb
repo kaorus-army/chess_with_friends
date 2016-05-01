@@ -11,14 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160429150155) do
+ActiveRecord::Schema.define(version: 20160501164945) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "games", force: :cascade do |t|
     t.string   "status"
-    t.integer  "moves"
+    t.integer  "moves_made"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.json     "board"
@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 20160429150155) do
     t.inet     "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.string   "username"
   end
 
   add_index "players", ["email"], name: "index_players_on_email", unique: true, using: :btree

@@ -7,4 +7,7 @@ class Player < ActiveRecord::Base
   # DB Relations
   has_many :playerships
   has_many :games, through: :playerships
+
+  # Validations
+  validates :username, presence: true
 end
