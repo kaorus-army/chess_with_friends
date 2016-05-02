@@ -44,6 +44,51 @@ class Piece < ActiveRecord::Base
     return false
   end
 
+  def obstructed_diagonal?(end_coord)
+
+  end_x_pos = end_coord[0]
+  end_y_pos = end_coord[1]
+  test_coordinates = []
+  spaces = (self.x_pos - end_x_pos).abs
+  count = 1
+
+  #up - left
+  if self.x_pos > end_x_pos && self.y_pos > end_y_pos
+    (spaces - 1).times do
+      test_coordinates << [self.x_pos - count, self.y_pos - count]
+      count = count + 1
+    end
+
+    #up - right
+  elsif self.x_pos < end_x_pos && self.y_pos > end_y_pos
+    (spaces - 1).times do
+      test_coordinates << [self.x_pos + count, self.y_pos - count]
+      count = count + 1
+    end
+
+    #down - left
+  elsif self.x_pos > end_x_pos && self.y_pos < end_y_pos
+    (spaces - 1).times do
+      test_coordinates << [self.x_pos - count, self.y_pos + count]
+      count = count + 1
+    end
+
+    #down - right
+  else self.x_pos < end_x_pos && self.y_pos < end_y_pos
+    (spaces - 1).times do
+      test_coordinates << [self.x_pos + count, self.y_pos + count]
+      count = count + 1
+    end
+
+  end
+
+
+  self.game.uncaptured_pieces.each { |piece| return true if test_coordinates.include?(piece.coordinate) }
+
+  return false
+
+end
+
   def coordinate
     return [x_pos, y_pos]
   end
