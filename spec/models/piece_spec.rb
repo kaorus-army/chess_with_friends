@@ -158,4 +158,125 @@ RSpec.describe Piece, type: :model do
     end
 
   end # end describe obstructed_vertical
+
+  describe "#obstructed_diagonal?" do
+
+    before(:example) do
+      @game = create(:game)
+    end
+
+    #----Obstructed Moves--------#
+    it "should return true if a piece is obstructed up-left" do
+      pawn1 = @game.pieces.create({
+        color: "white",
+        x_pos: 3,
+        y_pos: 3,
+        captured: false
+      })
+      pawn2 = @game.pieces.create({
+        color: "white",
+        x_pos: 1,
+        y_pos: 1,
+        captured: false
+      })
+        expect(pawn1.obstructed_diagonal?([0,0])).to eq true
+    end
+
+    it "should return true if a piece is obstructed up-right" do
+      pawn1 = @game.pieces.create({
+        color: "white",
+        x_pos: 3,
+        y_pos: 3,
+        captured: false
+      })
+      pawn2 = @game.pieces.create({
+        color: "white",
+        x_pos: 5,
+        y_pos: 1,
+        captured: false
+      })
+        expect(pawn1.obstructed_diagonal?([6,0])).to eq true
+
+    end
+
+    it "should return true if a piece is obstructed down-left" do
+      pawn1 = @game.pieces.create({
+        color: "white",
+        x_pos: 3,
+        y_pos: 3,
+        captured: false
+      })
+      pawn2 = @game.pieces.create({
+        color: "white",
+        x_pos: 1,
+        y_pos: 5,
+        captured: false
+      })
+        expect(pawn1.obstructed_diagonal?([0,6])).to eq true
+    end
+
+    it "should return true if a piece is obstructed down-right" do
+      pawn1 = @game.pieces.create({
+        color: "white",
+        x_pos: 3,
+        y_pos: 3,
+        captured: false
+      })
+      pawn2 = @game.pieces.create({
+        color: "white",
+        x_pos: 5,
+        y_pos: 5,
+        captured: false
+      })
+        expect(pawn1.obstructed_diagonal?([6,6])).to eq true
+    end
+
+    #----Unobstructed Moves--------#
+
+    it "should return false if a piece is not obstructed up-left" do
+      pawn1 = @game.pieces.create({
+        color: "white",
+        x_pos: 3,
+        y_pos: 3,
+        captured: false
+      })
+
+      expect(pawn1.obstructed_diagonal?([0,0])).to eq false
+    end
+
+    it "should return false if a piece is not obstructed up-right" do
+      pawn1 = @game.pieces.create({
+        color: "white",
+        x_pos: 3,
+        y_pos: 3,
+        captured: false
+      })
+
+      expect(pawn1.obstructed_diagonal?([6,0])).to eq false
+    end
+
+    it "should return false if a piece is not obstructed down-left" do
+      pawn1 = @game.pieces.create({
+        color: "white",
+        x_pos: 3,
+        y_pos: 3,
+        captured: false
+      })
+
+      expect(pawn1.obstructed_diagonal?([0,6])).to eq false
+    end
+
+    it "should return false if a piece is not obstructed down-right" do
+      pawn1 = @game.pieces.create({
+        color: "white",
+        x_pos: 3,
+        y_pos: 3,
+        captured: false
+      })
+
+      expect(pawn1.obstructed_diagonal?([6,6])).to eq false
+    end
+
+  end # end describe obstructed_diagonal?
+
 end
