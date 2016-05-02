@@ -14,4 +14,5 @@ class Game < ActiveRecord::Base
     pieces = self.pieces.reject { |piece| piece.captured? }
     return pieces.empty? ? nil : pieces
   end
+  
 end
