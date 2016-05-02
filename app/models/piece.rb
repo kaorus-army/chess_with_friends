@@ -4,8 +4,8 @@ class Piece < ActiveRecord::Base
 
   # Validations
   validates :color, presence: true, inclusion: { in: ['white', 'black'] }
-  validates :x_pos, presence: true, numericality: { only_integer: true }, inclusion: { in: (0..9).to_a }
-  validates :y_pos, presence: true, numericality: { only_integer: true }, inclusion: { in: (0..9).to_a }
+  validates :x_pos, presence: true, numericality: { only_integer: true }, inclusion: { in: (0..7).to_a }
+  validates :y_pos, presence: true, numericality: { only_integer: true }, inclusion: { in: (0..7).to_a }
   validates :captured, inclusion: { in: [true, false] }
   validates :game, presence: true
 
@@ -22,6 +22,21 @@ class Piece < ActiveRecord::Base
       ((self.x_pos + 1)..(end_x_pos - 1)).each { |i| test_coordinates << [i, self.y_pos] }
     else
       ((end_x_pos + 1)..(self.x_pos - 1)).each { |i| test_coordinates << [i, self.y_pos] }
+    end
+
+    self.game.uncaptured_pieces.each { |piece| return true if test_coordinates.include?(piece.coordinate) }
+
+    return false
+  end
+
+  def obstructed_vertical?(end_coord)
+    end_y_pos = end_coord[1]
+    test_coordinates = []
+
+    if self.y_pos < end_y_pos
+      ((self.y_pos + 1)..(end_y_pos - 1)).each { |i| test_coordinates << [self.x_pos, i] }
+    else
+      ((end_y_pos + 1)..(self.y_pos - 1)).each { |i| test_coordinates << [self.x_pos, i] }
     end
 
     self.game.uncaptured_pieces.each { |piece| return true if test_coordinates.include?(piece.coordinate) }

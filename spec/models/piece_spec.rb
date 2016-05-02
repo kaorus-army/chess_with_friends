@@ -93,5 +93,69 @@ RSpec.describe Piece, type: :model do
       expect(pawn1.obstructed_horizontal?([4, 1])).to eq false
     end
 
-  end
+  end # end describe obstructed_horizontal
+
+  describe "#obstructed_vertical" do
+
+    before(:example) do
+      @game = create(:game)
+    end
+
+    it "should return true if piece is obstructed above" do
+      pawn1 = @game.pieces.create({
+        color: "white",
+        x_pos: 1,
+        y_pos: 1,
+        captured: false
+      })
+      pawn2 = @game.pieces.create({
+        color: "white",
+        x_pos: 1,
+        y_pos: 3,
+        captured: false
+      })
+
+      expect(pawn2.obstructed_vertical?([1, 0])).to eq true
+    end
+
+    it "should return true if piece is obstructed below" do
+      pawn1 = @game.pieces.create({
+        color: "white",
+        x_pos: 1,
+        y_pos: 1,
+        captured: false
+      })
+      pawn2 = @game.pieces.create({
+        color: "white",
+        x_pos: 1,
+        y_pos: 3,
+        captured: false
+      })
+
+      expect(pawn1.obstructed_vertical?([1, 4])).to eq true
+    end
+
+    it "should return false if piece is not obstructed above" do
+      pawn2 = @game.pieces.create({
+        color: "white",
+        x_pos: 1,
+        y_pos: 3,
+        captured: false
+      })
+
+      expect(pawn2.obstructed_vertical?([1, 0])).to eq false
+    end
+
+    it "should return true if piece is not obstructed below" do
+      pawn1 = @game.pieces.create({
+        color: "white",
+        x_pos: 1,
+        y_pos: 1,
+        captured: false
+      })
+
+      expect(pawn1.obstructed_vertical?([1, 4])).to eq false
+    end
+
+  end # end describe obstructed_vertical
 end
