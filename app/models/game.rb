@@ -14,4 +14,12 @@ class Game < ActiveRecord::Base
     pieces.where(captured: false)
   end
 
+  def coordinate_conflict?(test_coords)
+    uncaptured_pieces.each do |piece|
+      return true if test_coords.include?(piece.coordinate)
+    end
+
+    false
+  end
+
 end

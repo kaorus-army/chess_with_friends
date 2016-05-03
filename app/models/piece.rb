@@ -47,9 +47,7 @@ class Piece < ActiveRecord::Base
       ((end_x_pos + 1)..(self.x_pos - 1)).each { |i| test_coordinates << [i, self.y_pos] }
     end
 
-    self.game.uncaptured_pieces.each { |piece| return true if test_coordinates.include?(piece.coordinate) }
-
-    false
+    game.coordinate_conflict?(test_coordinates)
   end
 
   def obstructed_vertical?(end_coord)
@@ -62,9 +60,7 @@ class Piece < ActiveRecord::Base
       ((end_y_pos + 1)..(self.y_pos - 1)).each { |i| test_coordinates << [self.x_pos, i] }
     end
 
-    self.game.uncaptured_pieces.each { |piece| return true if test_coordinates.include?(piece.coordinate) }
-
-    false
+    game.coordinate_conflict?(test_coordinates)
   end
 
   def obstructed_diagonal?(end_coord)
@@ -96,16 +92,14 @@ class Piece < ActiveRecord::Base
       end
 
     #down - right
-    else self.x_pos < end_x_pos && self.y_pos < end_y_pos
+    elsif self.x_pos < end_x_pos && self.y_pos < end_y_pos
       (spaces - 1).times do
         test_coordinates << [self.x_pos + count, self.y_pos + count]
         count = count + 1
       end
     end
 
-    self.game.uncaptured_pieces.each { |piece| return true if test_coordinates.include?(piece.coordinate) }
-
-    false
+    game.coordinate_conflict?(test_coordinates)
   end
 
   def coordinate
