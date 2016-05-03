@@ -17,18 +17,18 @@ class Piece < ActiveRecord::Base
     # Right now, only need to check if the move is horizontal,
     # vertical, or diagonal. Other pieces (e.g. Horse) will
     # contain varying logic.
-    is_move_horizontal?(end_coord) || is_move_vertical?(end_coord) || is_move_diagonal?(end_coord)
+    move_is_horizontal?(end_coord) || move_is_vertical?(end_coord) || move_is_diagonal?(end_coord)
   end
 
   # The caller of this method should have already checked if the move
   # is valid. This simply tells if the piece is obstructed along its
   # path.
   def obstructed?(end_coord)
-    if is_move_horizontal?(end_coord)
+    if move_is_horizontal?(end_coord)
       obstructed_horizontal?(end_coord)
-    elsif is_move_vertical?(end_coord)
+    elsif move_is_vertical?(end_coord)
       obstructed_vertical?(end_coord)
-    elsif is_move_diagonal?(end_coord)
+    elsif move_is_diagonal?(end_coord)
       obstructed_diagonal?(end_coord)
     end
   end
@@ -106,15 +106,15 @@ class Piece < ActiveRecord::Base
     [x_pos, y_pos]
   end
 
-  def is_move_horizontal?(end_coord)
+  def move_is_horizontal?(end_coord)
     end_coord[1] == self.y_pos
   end
 
-  def is_move_vertical?(end_coord)
+  def move_is_vertical?(end_coord)
     end_coord[0] == self.x_pos
   end
 
-  def is_move_diagonal?(end_coord)
+  def move_is_diagonal?(end_coord)
     available_diagonal_coordinates.include?(end_coord)
   end
 
