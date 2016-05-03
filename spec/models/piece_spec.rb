@@ -93,7 +93,7 @@ RSpec.describe Piece, type: :model do
       expect(pawn1.obstructed_horizontal?([4, 1])).to eq false
     end
 
-  end # end describe obstructed_horizontal
+  end # end describe obstructed_horizontal?
 
   describe "#obstructed_vertical" do
 
@@ -157,7 +157,7 @@ RSpec.describe Piece, type: :model do
       expect(pawn1.obstructed_vertical?([1, 4])).to eq false
     end
 
-  end # end describe obstructed_vertical
+  end # end describe obstructed_vertical?
 
   describe "#obstructed_diagonal?" do
 
@@ -278,5 +278,82 @@ RSpec.describe Piece, type: :model do
     end
 
   end # end describe obstructed_diagonal?
+
+  describe "#valid_move_direction?" do
+
+    before(:example) do
+      @game = create(:game)
+      @piece = @game.pieces.create({
+          color: "white",
+          x_pos: 3,
+          y_pos: 3,
+          captured: false
+      })
+    end
+
+    it "should be true for horizontal moves" do
+      expect(@piece.valid_move_direction?([0, 3])).to eq true
+      expect(@piece.valid_move_direction?([5, 3])).to eq true
+    end
+
+    it "should be true for vertical moves" do
+      expect(@piece.valid_move_direction?([3, 5])).to eq true
+      expect(@piece.valid_move_direction?([3, 0])).to eq true
+    end
+
+    it "should be true for diagonal moves" do
+      expect(@piece.valid_move_direction?([5, 1])).to eq true
+      expect(@piece.valid_move_direction?([1, 5])).to eq true
+      expect(@piece.valid_move_direction?([2, 2])).to eq true
+      expect(@piece.valid_move_direction?([4, 4])).to eq true
+    end
+
+    it "should be false for all other moves" do
+      expect(@piece.valid_move_direction?([4, 1])).to eq false
+    end
+
+  end # end describe can_move_to?
+
+  describe "#obstructed?" do
+
+    before(:example) do
+      @game = create(:game)
+      @piece1 = @game.pieces.create({
+        color: "white",
+        x_pos: 1,
+        y_pos: 1,
+        captured: false
+      })
+      @piece2 = @game.pieces.create({
+        color: "black",
+        x_pos: 3,
+        y_pos: 1,
+        captured: false
+      })
+      @piece3 = @game.pieces.create({
+        color: "white",
+        x_pos: 1,
+        y_pos: 3,
+        captured: false
+      })
+    end
+
+    it "should be true for obstructed moves horizontally" do
+      expect(@piece1.obstructed?([4, 1])).to eq true
+    end
+
+    it "should be true for obstructed moves vertically" do
+      expect(@piece1.obstructed?([1, 4])).to eq true
+    end
+
+    it "should be true for obstructed moves diagonally" do
+      expect(@piece3.obstructed?([4, 0])).to eq true
+    end
+
+    it "should be false for non-obstructed moves" do
+      expect(@piece1.obstructed?([4, 4])).to eq false
+    end
+
+  end # end describe obstructed?
 
 end
