@@ -11,8 +11,7 @@ class Game < ActiveRecord::Base
 
   # Instance methods
   def uncaptured_pieces
-    pieces = self.pieces.reject { |piece| piece.captured? }
-    return pieces.empty? ? nil : pieces
+    pieces.where(captured: false)
   end
-  
+
 end
