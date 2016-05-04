@@ -22,4 +22,30 @@ class Game < ActiveRecord::Base
     false
   end
 
+  def drawboard
+
+    board = [
+      [0,1,0,1,0,1,0,1],
+      [1,0,1,0,1,0,1,0],
+      [0,1,0,1,0,1,0,1],
+      [1,0,1,0,1,0,1,0],
+      [0,1,0,1,0,1,0,1],
+      [1,0,1,0,1,0,1,0],
+      [0,1,0,1,0,1,0,1],
+      [1,0,1,0,1,0,1,0]
+    ]
+
+    board.each do |row|
+      row.each do |col|
+
+        if col == 1
+          puts "<div class = 'black_space'></div>"
+        else
+          puts "<div class = 'white_space'></div>"
+        end
+      end
+    end
+
+  end
+
 end

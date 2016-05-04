@@ -1,0 +1,33 @@
+// Place all the styles related to the games controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+
+//-----Gameboard-------//
+
+.game_board {
+  height: 810px;
+  width:810px;
+  margin: 0 auto;
+  border: 5px solid grey;
+
+}
+
+.white_space{
+  height: 100px;
+  width: 100px;
+  background-color: white;
+  float: left;
+}
+
+.black_space{
+  height: 100px;
+  width: 100px;
+  background-color: black;
+  float: left;
+}
+
+.clear {
+  clear: both;
+}
