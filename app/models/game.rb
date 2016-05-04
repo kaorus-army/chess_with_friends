@@ -11,8 +11,15 @@ class Game < ActiveRecord::Base
 
   # Instance methods
   def uncaptured_pieces
-    pieces = self.pieces.reject { |piece| piece.captured? }
-    return pieces.empty? ? nil : pieces
+    pieces.where(captured: false)
   end
-  
+
+  def coordinate_conflict?(test_coords)
+    uncaptured_pieces.each do |piece|
+      return true if test_coords.include?(piece.coordinate)
+    end
+
+    false
+  end
+
 end
