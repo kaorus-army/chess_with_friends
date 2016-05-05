@@ -6,7 +6,7 @@
 
 //-----Gameboard-------//
 
-.game_board {
+.game-board {
   height: 810px;
   width:810px;
   margin: 0 auto;
@@ -14,20 +14,22 @@
 
 }
 
-.white_space{
+.white-space{
   height: 100px;
   width: 100px;
   background-color: white;
   float: left;
 }
 
-.black_space{
+.black-space{
   height: 100px;
   width: 100px;
   background-color: black;
   float: left;
 }
 
-.clear {
+.group:after {
+  content: "";
+  display: table;
   clear: both;
 }

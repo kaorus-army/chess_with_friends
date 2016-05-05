@@ -1,6 +1,6 @@
 <br /><br /><br />
 
-  <div class = "game_board">
+  <div class = "game-board group">
 
 
 <% board = [0,1,0,1,0,1,0,1],[1,0,1,0,1,0,1,0] %>
@@ -8,9 +8,9 @@
     <% board.each do |row| %>
       <% row.each do |col| %>
         <% if col.even?%>
-          <div class = 'white_space'></div>
+          <div class = 'white-space'></div>
         <% else %>
-          <div class = 'black_space'></div>
+          <div class = 'black-space'></div>
         <% end %>
       <% end %>
     <% end %>
@@ -18,5 +18,3 @@
 
 
   </div>
-
-  <br class="clear" />
