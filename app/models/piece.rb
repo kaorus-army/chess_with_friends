@@ -42,7 +42,7 @@ class Piece < ActiveRecord::Base
   end
 
   # Takes a coordinate [x, y] and a direction :<direction>
-  def distance_to(end_coord, direction)
+  def distance_from(end_coord, direction)
     end_x_pos = end_coord[0]
     end_y_pos = end_coord[1]
 
