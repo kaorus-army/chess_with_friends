@@ -1,9 +1,8 @@
 <br /><br /><br />
 
-<div class = "game-board group">    
-  <% board = [0,1,0,1,0,1,0,1],[1,0,1,0,1,0,1,0] %>
+<div class = "game-board group">
     <% 4.times do %>
-      <% board.each do |row| %>
+      <% @board.each do |row| %>
         <% row.each do |col| %>
           <% if col.even?%>
             <div class = 'white-space'></div>
