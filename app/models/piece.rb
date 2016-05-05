@@ -41,6 +41,25 @@ class Piece < ActiveRecord::Base
     direction
   end
 
+  # Takes a coordinate [x, y] and a direction :<direction>
+  def distance_to(end_coord, direction)
+    end_x_pos = end_coord[0]
+    end_y_pos = end_coord[1]
+
+    distance = case direction
+    when :horizontal
+      (end_x_pos - self.x_pos).abs
+    when :vertical
+      (end_y_pos - self.y_pos).abs
+    when :diagonal
+      (end_x_pos - self.x_pos).abs              # could have also used y distance, arbitrary choice
+    else
+      nil
+    end
+
+    distance
+  end
+
   # The caller of this method should have already checked if the move
   # is valid. This simply tells if the piece is obstructed along its
   # path.
