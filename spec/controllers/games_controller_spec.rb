@@ -4,7 +4,8 @@ RSpec.describe GamesController, type: :controller do
 
   describe "games#show" do
     it "should successfully load the show page" do
-      get :show
+      game= create(:game)
+      get :show, id: game.id
       expect(response).to have_http_status(:success)
     end
   end
