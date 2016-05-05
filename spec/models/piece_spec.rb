@@ -356,4 +356,27 @@ RSpec.describe Piece, type: :model do
 
   end # end describe obstructed?
 
+  describe "#distance_from" do
+
+    let(:game) { create(:game) }
+    let(:pawn) { create(:pawn, game: game, x_pos: 1, y_pos: 1) }
+
+    it "should give a valid distance for horiztonal moves" do
+      expect(pawn.distance_from([3, 1], :horizontal)).to eq 2
+    end
+
+    it "should give a valid distance for vertical moves" do
+      expect(pawn.distance_from([1, 5], :vertical)).to eq 4
+    end
+
+    it "should give a valid distance for diagonal moves" do
+      expect(pawn.distance_from([4, 4], :diagonal)).to eq 3
+    end
+
+    it "should return nil for an invalid move direction" do
+      expect(pawn.distance_from([3, 5], :invalid)).to eq nil
+    end
+
+  end # descibe #distance_from
+
 end
