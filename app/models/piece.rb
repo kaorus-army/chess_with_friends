@@ -17,7 +17,28 @@ class Piece < ActiveRecord::Base
     # Right now, only need to check if the move is horizontal,
     # vertical, or diagonal. Other pieces (e.g. Horse) will
     # contain varying logic.
-    move_is_horizontal?(end_coord) || move_is_vertical?(end_coord) || move_is_diagonal?(end_coord)
+    begin
+      get_move_direction(end_coord)
+    rescue StandardError
+      return false
+    end
+
+    true
+  end
+
+  def get_move_direction(end_coord)
+    direction = case
+    when move_is_horizontal?(end_coord)
+      :horizontal
+    when move_is_vertical?(end_coord)
+      :vertical
+    when move_is_diagonal?(end_coord)
+      :diagonal
+    else
+      raise StandardError, "invalid move direction"
+    end
+
+    direction
   end
 
   # The caller of this method should have already checked if the move
