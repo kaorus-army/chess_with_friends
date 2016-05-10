@@ -1,4 +1,7 @@
 class Game < ActiveRecord::Base
+  # NOTE:
+  # Black pieces on top, white on bottom
+
   # DB Relations
   has_many :playerships
   has_many :players, through: :playerships
