@@ -43,5 +43,21 @@ RSpec.describe Game, type: :model do
       expect(game.uncaptured_pieces.include?(captured_black_piece)).to eq true
     end
 
-  end
+  end # describe #uncaptured_pieces
+
+  describe "#valid_coordinate?" do
+
+    let(:game) { create(:game) }
+
+    it "should return true for coordinates on the board" do
+      expect(game.valid_coordinate?([0, 7])).to eq true
+      expect(game.valid_coordinate?([3, 4])).to eq true
+    end
+
+    it "should return false for coordinates off the board" do
+      expect(game.valid_coordinate?([-1, 2])).to eq false
+      expect(game.valid_coordinate?([8, 9])).to eq false
+    end
+
+  end # describe #valid_coordinate?
 end

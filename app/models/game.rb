@@ -22,5 +22,14 @@ class Game < ActiveRecord::Base
     false
   end
 
+  def valid_coordinate?(coord)
+    end_x_pos = coord[0]
+    end_y_pos = coord[1]
+    if (0..7).include?(end_x_pos) && (0..7).include?(end_y_pos)
+      true
+    else
+      false
+    end
+  end
 
 end
