@@ -1,4 +1,5 @@
 class Game < ActiveRecord::Base
+
   # DB Relations
   has_many :playerships
   has_many :players, through: :playerships
@@ -20,6 +21,46 @@ class Game < ActiveRecord::Base
     end
 
     false
+  end
+
+  def populate_game
+    # populate black pieces at top
+  
+    (0..7).each do |n|
+      pieces.create(type: "Pawn", color: "black", x_pos: n, y_pos: 6)
+    end
+
+    pieces.create(type: "Rook", color: "black", x_pos: 0, y_pos: 7)
+    pieces.create(type: "Rook", color: "black", x_pos: 7, y_pos: 7)
+
+
+    pieces.create(type: "Knight", color: "black", x_pos: 1, y_pos: 7)
+    pieces.create(type: "Knight", color: "black", x_pos: 6, y_pos: 7)
+
+    pieces.create(type: "Bishop", color: "black", x_pos: 2, y_pos: 7)
+    pieces.create(type: "Bishop", color: "black", x_pos: 5, y_pos: 7)
+
+    pieces.create(type: "Queen", color: "black", x_pos: 3, y_pos: 7)
+
+    pieces.create(type: "King", color: "black", x_pos: 4, y_pos: 7)
+
+    #populate white pieces at bottom
+    (0..7).each do |n|
+      pieces.create(type: "Pawn", color: "white", x_pos: n, y_pos: 1)
+    end
+
+    pieces.create(type: "Rook", color: "white", x_pos: 0, y_pos: 0)
+    pieces.create(type: "Rook", color: "white", x_pos: 7, y_pos: 0)
+
+    pieces.create(type: "Knight", color: "white", x_pos: 1, y_pos: 0)
+    pieces.create(type: "Knight", color: "white", x_pos: 6, y_pos: 0)
+
+    pieces.create(type: "Bishop", color: "white", x_pos: 2, y_pos: 0)
+    pieces.create(type: "Bishop", color: "white", x_pos: 5, y_pos: 0)
+
+    pieces.create(type: "Queen", color: "white", x_pos: 3, y_pos: 0)
+
+    pieces.create(type: "King", color: "white", x_pos: 4, y_pos: 0)
   end
 
 
