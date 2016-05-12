@@ -155,45 +155,6 @@ class Piece < ActiveRecord::Base
   end
 
   def move_is_diagonal?(end_coord)
-    available_diagonal_coordinates.include?(end_coord)
-  end
-
-  def available_diagonal_coordinates
-    coordinates = []
-
-    # Up & Right
-    x_pos = self.x_pos + 1
-    y_pos = self.y_pos - 1
-    while x_pos <= 7 && y_pos >= 0 do
-      coordinates << [x_pos, y_pos]
-      x_pos += 1
-      y_pos -= 1
-    end
-    # Up & Left
-    x_pos = self.x_pos - 1
-    y_pos = self.y_pos - 1
-    while x_pos >= 0 && y_pos >= 0 do
-      coordinates << [x_pos, y_pos]
-      x_pos -= 1
-      y_pos -= 1
-    end
-    # Down & Right
-    x_pos = self.x_pos + 1
-    y_pos = self.y_pos + 1
-    while x_pos <= 7 && y_pos <= 7 do
-      coordinates << [x_pos, y_pos]
-      x_pos += 1
-      y_pos += 1
-    end
-    # Up & Right
-    x_pos = self.x_pos - 1
-    y_pos = self.y_pos + 1
-    while x_pos >= 0 && y_pos <= 7 do
-      coordinates << [x_pos, y_pos]
-      x_pos -= 1
-      y_pos += 1
-    end
-
-    coordinates
+    distance_from(end_coord, :horizontal) == distance_from(end_coord, :vertical)
   end
 end
