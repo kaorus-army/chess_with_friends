@@ -2,7 +2,7 @@ class King < Piece
 
   def valid_move?(end_coord)
 
-    return false unless valid_move_direction?(end_coord) && game.valid_coordinate?(coord)
+    return false unless valid_move_direction?(end_coord) && game.valid_coordinate?(end_coord)
     # Check distance
     direction = get_move_direction(end_coord)
     distance = distance_from(end_coord, direction)
