@@ -6,8 +6,9 @@ RSpec.describe Queen, type: :model do
   end
 
   describe "valid_move?" do
-
-    let(:queen) { create(:queen, x_pos:5, y_pos:5) }
+    
+    let(:game) { create(:game)}
+    let(:queen) { create(:queen, x_pos:5, y_pos:5, game: game) }
 
     it "should allow queen to move any number of spaces" do
       expect(queen.valid_move?([1,1])).to eq true
@@ -24,6 +25,25 @@ RSpec.describe Queen, type: :model do
       expect(queen.valid_move?([6,4])).to eq true #up-left
       expect(queen.valid_move?([4,6])).to eq true #down-left
       expect(queen.valid_move?([6,6])).to eq true #down-right
+    end
+
+    it "should be false if queen is obstructed" do
+      obstructing_left = game.pieces.create(x_pos: 2, y_pos: 5)
+      expect(queen.valid_move?([1,5])).to eq false
+      obstructing_up_left = game.pieces.create(x_pos: 4, y_pos: 4)
+      expect(queen.valid_move?([3,3])).to eq false
+      obstructing_up = game.pieces.create(x_pos: 5, y_pos: 4)
+      expect(queen.valid_move?([5,2])).to eq false
+      obstructing_up_right = game.pieces.create(x_pos: 6, y_pos: 4)
+      expect(queen.valid_move?([7,3])).to eq false
+      obstructing_right = game.pieces.create(x_pos: 6, y_pos: 5)
+      expect(queen.valid_move?([7,5])).to eq false
+      obstructing_down_right = game.pieces.create(x_pos: 6, y_pos: 6)
+      expect(queen.valid_move?([7,7])).to eq false
+      obstructing_down = game.pieces.create(x_pos: 5, y_pos: 6)
+      expect(queen.valid_move?([5,7])).to eq false
+      obstructing_down_left = game.pieces.create(x_pos: 4, y_pos: 6)
+      expect(queen.valid_move?([3,7])).to eq false
     end
   end
 end
