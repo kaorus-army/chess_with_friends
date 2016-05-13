@@ -29,6 +29,7 @@ class Game < ActiveRecord::Base
     end_x_pos = coord[0]
     end_y_pos = coord[1]
 <<<<<<< HEAD
+<<<<<<< HEAD
     if (0..7).include?(end_x_pos) && (0..7).include?(end_y_pos)
       true
     else
@@ -38,6 +39,10 @@ class Game < ActiveRecord::Base
 
     (0..7).include?(end_x_pos) && (0..7).include?(end_y_pos)
 >>>>>>> master
+=======
+    
+    (0..7).include?(end_x_pos) && (0..7).include?(end_y_pos)
+>>>>>>> cee455980e33bccbe3d808ffd0da887e12d3e804
   end
 
 end
