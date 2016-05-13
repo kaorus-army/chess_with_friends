@@ -44,4 +44,62 @@ RSpec.describe Game, type: :model do
     end
 
   end
+
+  describe "populate_game method works as intended" do
+
+    it "should create 32 pieces" do
+      game = FactoryGirl.build(:game)
+      game.populate_game
+      expect(game.reload.pieces.count).to eq 32
+    end
+
+    it "should create 16 white pieces" do
+      game = FactoryGirl.build(:game)
+      game.populate_game
+      expect(game.pieces.where(color: "white").count).to eq 16
+    end
+
+    it "should create 16 black pieces" do
+      game = FactoryGirl.build(:game)
+      game.populate_game
+      expect(game.pieces.where(color: "black").count).to eq 16
+    end
+
+    it "should create 16 Pawns" do
+      game = FactoryGirl.build(:game)
+      game.populate_game
+      expect(game.pieces.where(type: "Pawn").count).to eq 16
+    end
+
+    it "should create 4 Rooks" do
+      game = FactoryGirl.build(:game)
+      game.populate_game
+      expect(game.pieces.where(type: "Rook").count).to eq 4
+    end
+
+    it "should create 4 Knights" do
+      game = FactoryGirl.build(:game)
+      game.populate_game
+      expect(game.pieces.where(type: "Knight").count).to eq 4
+    end
+
+    it "should create 4 Bishops" do
+      game = FactoryGirl.build(:game)
+      game.populate_game
+      expect(game.pieces.where(type: "Bishop").count).to eq 4
+    end
+
+    it "should create 2 Queens" do
+      game = FactoryGirl.build(:game)
+      game.populate_game
+      expect(game.pieces.where(type: "Queen").count).to eq 2
+    end
+
+    it "should create 2 Kings" do
+      game = FactoryGirl.build(:game)
+      game.populate_game
+      expect(game.pieces.where(type: "King").count).to eq 2
+    end
+
+  end
 end
