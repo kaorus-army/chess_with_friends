@@ -1,7 +1,4 @@
 class Game < ActiveRecord::Base
-  # NOTE:
-  # Black pieces on top, white on bottom
-
   # DB Relations
   has_many :playerships
   has_many :players, through: :playerships
@@ -28,21 +25,8 @@ class Game < ActiveRecord::Base
   def valid_coordinate?(coord)
     end_x_pos = coord[0]
     end_y_pos = coord[1]
-<<<<<<< HEAD
-<<<<<<< HEAD
-    if (0..7).include?(end_x_pos) && (0..7).include?(end_y_pos)
-      true
-    else
-      false
-    end
-=======
 
     (0..7).include?(end_x_pos) && (0..7).include?(end_y_pos)
->>>>>>> master
-=======
-    
-    (0..7).include?(end_x_pos) && (0..7).include?(end_y_pos)
->>>>>>> cee455980e33bccbe3d808ffd0da887e12d3e804
   end
 
 end
