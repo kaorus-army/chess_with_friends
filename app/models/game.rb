@@ -71,6 +71,10 @@ class Game < ActiveRecord::Base
 
     (0..7).include?(end_x_pos) && (0..7).include?(end_y_pos)
   end
+<<<<<<< HEAD
 >>>>>>> 9dab9f9abb30bef669c299dd4363b131b7fab260
+=======
+>>>>>>> b90aaeb2e784989760157976b0408feef98e246c
+>>>>>>> master
 
 end
