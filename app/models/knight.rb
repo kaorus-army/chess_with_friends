@@ -1,7 +1,5 @@
 class Knight < Piece
-  # This piece should have some limits on its behavior:
-  # - can only move in an L-shape
-  # - can jump over people (not obstructable)
+  
   def valid_move?(end_coord)
 
     end_x_pos = end_coord[0]
