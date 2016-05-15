@@ -23,6 +23,7 @@ class Game < ActiveRecord::Base
     false
   end
 
+<<<<<<< HEAD
   def populate_game
     # populate black pieces at top
   
@@ -63,5 +64,13 @@ class Game < ActiveRecord::Base
     pieces.create(type: "King", color: "white", x_pos: 4, y_pos: 0)
   end
 
+=======
+  def valid_coordinate?(coord)
+    end_x_pos = coord[0]
+    end_y_pos = coord[1]
+
+    (0..7).include?(end_x_pos) && (0..7).include?(end_y_pos)
+  end
+>>>>>>> b90aaeb2e784989760157976b0408feef98e246c
 
 end
