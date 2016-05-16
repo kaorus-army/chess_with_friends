@@ -11,6 +11,9 @@ class GamesController < ApplicationController
     @board = [[0,1,0,1,0,1,0,1],[1,0,1,0,1,0,1,0]]
   end
 
+  def new
+  end
+
   private
 
   def set_game
