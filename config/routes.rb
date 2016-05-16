@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :players
+  devise_for :players, controllers: { registrations: 'registrations' }
   root :to => 'static_pages#index'
 
   resources :games, only: [:index, :show, :new, :create, :destroy] do
