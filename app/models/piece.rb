@@ -11,6 +11,32 @@ class Piece < ActiveRecord::Base
 
   # Instance Methods
 
+  def move_to(end_coord)
+
+    puts self.inspect
+    #Check if move is vaild for Piece
+    return false unless self.valid_move?(end_coord)
+
+    #Capture logic
+    game.uncaptured_pieces.each do |piece|
+      if end_coord == piece.coordinate
+        if self.color != piece.color
+          piece.destroy
+        else
+          return false
+        end
+      end
+    end
+
+    #Update piece location and move count
+    self.update_attributes(:x_pos => end_coord[0], :y_pos => end_coord[1], :moves_made => self.moves_made + 1)
+
+    puts self.inspect
+
+    true
+
+  end
+
   # This method can vary with different (inherited) pieces
   # This method will change in future revisions
   def valid_move_direction?(end_coord)
@@ -76,7 +102,7 @@ class Piece < ActiveRecord::Base
   def obstructed_horizontal?(end_coord)
     # Get all coordinates between this piece's x_pos and the end_x_pos
     # Cycle through each uncaptured piece on the board
-      # If any piece's coordinate matches one in the list, return true
+    # If any piece's coordinate matches one in the list, return true
     # Return false if nothing gets returned from the loop
     end_x_pos = end_coord[0]
     test_coordinates = []
@@ -117,21 +143,21 @@ class Piece < ActiveRecord::Base
         count = count + 1
       end
 
-    #up - right
+      #up - right
     elsif self.x_pos < end_x_pos && self.y_pos > end_y_pos
       (spaces - 1).times do
         test_coordinates << [self.x_pos + count, self.y_pos - count]
         count = count + 1
       end
 
-    #down - left
+      #down - left
     elsif self.x_pos > end_x_pos && self.y_pos < end_y_pos
       (spaces - 1).times do
         test_coordinates << [self.x_pos - count, self.y_pos + count]
         count = count + 1
       end
 
-    #down - right
+      #down - right
     elsif self.x_pos < end_x_pos && self.y_pos < end_y_pos
       (spaces - 1).times do
         test_coordinates << [self.x_pos + count, self.y_pos + count]

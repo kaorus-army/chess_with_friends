@@ -379,4 +379,14 @@ RSpec.describe Piece, type: :model do
 
   end # descibe #distance_from
 
+  describe "#move_to" do
+
+    let(:king) { create(:king, x_pos: 4, y_pos: 4, color:"white") }
+
+    it "should retrun true when space is occupied" do
+      blk_piece = king.game.pieces.create(x_pos: 3, y_pos: 4, color:"black")
+      expect(king.move_to([3,4])).to eq true
+    end
+
+  end
 end
