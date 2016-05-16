@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   devise_for :players
   root :to => 'static_pages#index'
 
-  resources :games, only: [:index, :show, :new, :create] do
+  resources :games, only: [:index, :show, :new, :create, :destroy] do
     member do
       get :join
     end

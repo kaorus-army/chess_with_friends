@@ -117,6 +117,65 @@ RSpec.describe GamesController, type: :controller do
 
     end # describe #join
 
+    describe "#destroy" do
+
+      let(:game) { create(:game) }
+      let(:player1) { game.players.first }
+      let(:player2) { create(:player) }
+
+      before(:example) do
+        sign_out @player1
+        # Add the 'black' player to the game
+        game.playerships.create(player: player2, color: 'black')
+      end
+
+      it "allows the white player to submit a delete request" do
+        sign_in player1
+        delete :destroy, id: game.id
+        game.reload
+
+        expect(response).to redirect_to(games_url)
+        expect(game.delete_request_white).to eq true
+      end
+
+      it "allows the black player to submit a delete request" do
+        sign_in player2
+        delete :destroy, id: game.id
+        game.reload
+
+        expect(response).to redirect_to(games_url)
+        expect(game.delete_request_black).to eq true
+      end
+
+      it "deletes the game if both players sumit a delete request" do
+        # Player2 has already submitted his delete request
+        game.delete_request_black = true
+        game.save!
+        sign_in player1
+        delete :destroy, id: game.id
+
+        expect(response).to redirect_to(games_url)
+        expect(Game.count).to eq 0
+        expect(player1.playerships.count).to eq 0
+        expect(player2.playerships.count).to eq 0
+      end
+
+      it "404 errors if the game does not exist" do
+        sign_in player1
+        delete :destroy, id: 'TACO'
+
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it "forbids access to players not associated with the game" do
+        sign_in @player1
+        delete :destroy, id: game.id
+
+        expect(response).to have_http_status(:forbidden)
+      end
+
+    end # describe #destroy
+
   end # context when player signed in
 
   context "when player not signed in" do
@@ -171,6 +230,16 @@ RSpec.describe GamesController, type: :controller do
       end
 
     end # describe #join
+
+    describe "#destroy" do
+
+      it "redirects to the sign-in page" do
+        delete(:destroy, id: 'anything')
+
+        expect(response).to redirect_to(new_player_session_url)
+      end
+
+    end #describe #destroy
 
   end # context when player not signed in
 

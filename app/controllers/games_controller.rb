@@ -1,8 +1,8 @@
 class GamesController < ApplicationController
   before_action :authenticate_player!
-  before_action :set_game, only: [:show, :join]
-  before_action :verify_game, only: [:show, :join]
-  before_action :authorize_game, only: [:show]
+  before_action :set_game, only: [:show, :join, :destroy]
+  before_action :verify_game, only: [:show, :join, :destroy]
+  before_action :authorize_game, only: [:show, :destroy]
 
   def index
   end
@@ -36,6 +36,23 @@ class GamesController < ApplicationController
       @game.playerships.create(player: current_player, color: 'black')      # First player will default to white, joining player should be black
       redirect_to game_url(@game)
     end
+  end
+
+  def destroy
+    # Decide what to do based on the current player's color
+    case current_player.playerships.where(game_id: @game.id).first.color
+    when 'white'
+      @game.delete_request_white = true
+    when 'black'
+      @game.delete_request_black = true
+    end
+    @game.save!
+
+    # If both delete requests are true, destroy the game
+    @game.destroy if @game.delete_request_white && @game.delete_request_black
+
+    # Always redirect to the the game index
+    redirect_to games_url
   end
 
   private
