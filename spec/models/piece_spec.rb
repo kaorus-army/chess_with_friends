@@ -383,9 +383,37 @@ RSpec.describe Piece, type: :model do
 
     let(:queen) { create(:queen, x_pos: 4, y_pos: 4, color:"white") }
 
-    it "should retrun true when space is occupied and piece is oppsite color" do
+    it "should retrun true if space is occupied by piece of oppsite color" do
       blk_piece = queen.game.pieces.create(x_pos: 3, y_pos: 4, color:"black")
       expect(queen.move_to([3,4])).to eq true
+    end
+
+    it "should return false if space is occupied by piece of same color" do
+      wht_piece = queen.game.pieces.create(x_pos: 3, y_pos: 4, color:"white")
+    end
+
+    it "should remove captured pieces from database" do
+      blk_piece = queen.game.pieces.create(x_pos: 3, y_pos: 4, color:"black")
+      queen.move_to([3,4])
+      expect(queen.game.uncaptured_pieces.length).to eq 1
+    end
+
+    it "should update piece location" do
+      queen.move_to([3,4])
+      expect(queen.coordinate).to eq [3,4]
+      queen.move_to([1,2])
+      expect(queen.coordinate).to eq [1,2]
+      queen.move_to([5,2])
+      expect(queen.coordinate).to eq [5,2]
+    end
+
+    it "should update number of moves_made by piece" do
+      queen.move_to([3,4])
+      expect(queen.moves_made).to eq 1
+      queen.move_to([1,2])
+      expect(queen.moves_made).to eq 2
+      queen.move_to([5,2])
+      expect(queen.moves_made).to eq 3
     end
 
   end # describe #move_to

@@ -13,7 +13,6 @@ class Piece < ActiveRecord::Base
 
   def move_to(end_coord)
 
-    puts self.inspect
     #Check if move is vaild for Piece
     return false unless self.valid_move?(end_coord)
 
@@ -30,8 +29,6 @@ class Piece < ActiveRecord::Base
 
     #Update piece location and move count
     self.update_attributes(:x_pos => end_coord[0], :y_pos => end_coord[1], :moves_made => self.moves_made + 1)
-
-    puts self.inspect
 
     true
 
