@@ -20,7 +20,7 @@ class Piece < ActiveRecord::Base
     game.uncaptured_pieces.each do |piece|
       if end_coord == piece.coordinate
         if self.color != piece.color
-          piece.update_attributes(:x_pos => end_coord[nil], :y_pos => end_coord[nil], :captured => true)
+          piece.update_attributes(:x_pos => end_coord[9], :y_pos => end_coord[9], :captured => true)
         else
           return false
         end
