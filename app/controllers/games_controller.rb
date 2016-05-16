@@ -5,6 +5,7 @@ class GamesController < ApplicationController
   before_action :authorize_game, only: [:show, :destroy]
 
   def index
+    @games = Game.all
   end
 
   def show
