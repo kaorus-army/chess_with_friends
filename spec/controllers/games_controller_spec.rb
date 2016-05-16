@@ -83,6 +83,13 @@ RSpec.describe GamesController, type: :controller do
         expect(@game.players.count).to eq 2
       end
 
+      it "assigns players correct colors" do
+        get :join, id: @game.id
+
+        expect(@game.playerships.where(player_id: @game.players.first.id).first.color).to eq 'white'
+        expect(@game.playerships.where(player_id: @player1.id).first.color).to eq 'black'
+      end
+
       it "restricts access to only two players" do
         player2 = create(:player)
         @game.playerships.create(player: player2)

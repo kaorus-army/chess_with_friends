@@ -33,7 +33,7 @@ class GamesController < ApplicationController
     elsif @game.players.count >= 2                          # Game already has 2 players
       redirect_to games_url
     else                                                    # Join up!
-      @game.playerships.create(player: current_player)
+      @game.playerships.create(player: current_player, color: 'black')      # First player will default to white, joining player should be black
       redirect_to game_url(@game)
     end
   end
