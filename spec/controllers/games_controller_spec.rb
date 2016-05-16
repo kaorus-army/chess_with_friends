@@ -36,6 +36,16 @@ RSpec.describe GamesController, type: :controller do
 
     end # describe #show
 
+    describe "#index" do
+
+      it "should sucessfully show the game listing page" do
+        get :index
+
+        expect(response).to have_http_status(:success)
+      end
+
+    end # describe #index
+
   end # context when player signed in
 
   context "when player not signed in" do
@@ -50,6 +60,16 @@ RSpec.describe GamesController, type: :controller do
       end
 
     end # describe #show
+
+    describe "#index" do
+
+      it "should redirect to the sign-in page" do
+        get(:index)
+
+        expect(response).to redirect_to(new_player_session_url)
+      end
+
+    end # describe #index
 
   end # context when player not signed in
 

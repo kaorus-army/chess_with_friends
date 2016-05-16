@@ -4,6 +4,9 @@ class GamesController < ApplicationController
   before_action :verify_game, only: [:show]
   before_action :authorize_game, only: [:show]
 
+  def index
+  end
+
   def show
     @board = [[0,1,0,1,0,1,0,1],[1,0,1,0,1,0,1,0]]
   end
