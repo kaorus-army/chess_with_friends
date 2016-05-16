@@ -1,7 +1,7 @@
 class GamesController < ApplicationController
   before_action :authenticate_player!
-  before_action :set_game, only: [:show]
-  before_action :verify_game, only: [:show]
+  before_action :set_game, only: [:show, :join]
+  before_action :verify_game, only: [:show, :join]
   before_action :authorize_game, only: [:show]
 
   def index
@@ -16,7 +16,7 @@ class GamesController < ApplicationController
 
   def create
     @game = Game.new(game_params)
-    @game.save(validate: false)
+    @game.save(validate: false)                             # Game validates presence of players, so have to soft-save before checking validations
     @game.playerships.create(player: current_player)
 
     if @game.valid?
@@ -24,6 +24,17 @@ class GamesController < ApplicationController
     else
       @game.destroy
       render :new, status: :unprocessable_entity
+    end
+  end
+
+  def join
+    if @game.players.include?(current_player)               # Player has already joined this game
+      redirect_to game_url(@game)
+    elsif @game.players.count >= 2                          # Game already has 2 players
+      redirect_to games_url
+    else                                                    # Join up!
+      @game.playerships.create(player: current_player)
+      redirect_to game_url(@game)
     end
   end
 

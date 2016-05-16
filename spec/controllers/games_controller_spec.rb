@@ -64,13 +64,51 @@ RSpec.describe GamesController, type: :controller do
         }
         game = Game.last
 
-        # expect(response).to redirect_to(game_url(game))
-        # expect(game.nickname).to eq "A game nickname"
+        expect(response).to redirect_to(game_url(game))
+        expect(game.nickname).to eq "A game nickname"
         expect(Game.count).to eq 1
-        # expect(game.players.first).to eq @player1
+        expect(game.players.first).to eq @player1
       end
 
     end # describe #create
+
+    describe "#join" do
+
+      before(:example) { @game = create(:game) }
+
+      it "allows players to join a game" do
+        get :join, id: @game.id
+
+        expect(response).to redirect_to(game_url(@game))
+        expect(@game.players.count).to eq 2
+      end
+
+      it "restricts access to only two players" do
+        player2 = create(:player)
+        @game.playerships.create(player: player2)
+        # now @game is at "full capacity"
+        get :join, id: @game.id
+
+        expect(response).to redirect_to(games_url)
+        expect(@game.players.include?(@player1)).to eq false
+      end
+
+      it "404 errors if the game is not found" do
+        get :join, id: 'CAT'
+
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it "redirects to the game if the player has already joined" do
+        # Player is already associated with the game
+        @game.playerships.create(player: @player1)
+        get :join, id: @game.id
+
+        expect(response).to redirect_to(game_url(@game))
+        expect(@game.players.count).to eq 2
+      end
+
+    end # describe #join
 
   end # context when player signed in
 
@@ -116,6 +154,16 @@ RSpec.describe GamesController, type: :controller do
       end
 
     end # describe #create
+
+    describe "#join" do
+
+      it "redirects to the sign-in page" do
+        get(:join, id: 'anything')
+
+        expect(response).to redirect_to(new_player_session_url)
+      end
+
+    end # describe #join
 
   end # context when player not signed in
 
