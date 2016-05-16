@@ -56,6 +56,22 @@ RSpec.describe GamesController, type: :controller do
 
     end # describe #new
 
+    describe "#create" do
+
+      it "should allow players to create a new game" do
+        post :create, game: {
+          nickname: "A game nickname"
+        }
+        game = Game.last
+
+        # expect(response).to redirect_to(game_url(game))
+        # expect(game.nickname).to eq "A game nickname"
+        expect(Game.count).to eq 1
+        # expect(game.players.first).to eq @player1
+      end
+
+    end # describe #create
+
   end # context when player signed in
 
   context "when player not signed in" do
@@ -90,6 +106,16 @@ RSpec.describe GamesController, type: :controller do
       end
 
     end # describe #new
+
+    describe "#create" do
+
+      it "should redirect to the sign-in page" do
+        post(:create, game: {nickname: "A nickname"})
+
+        expect(response).to redirect_to(new_player_session_url)
+      end
+
+    end # describe #create
 
   end # context when player not signed in
 

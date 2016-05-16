@@ -14,6 +14,19 @@ class GamesController < ApplicationController
   def new
   end
 
+  def create
+    @game = Game.new(game_params)
+    @game.save(validate: false)
+    @game.playerships.create(player: current_player)
+
+    if @game.valid?
+      redirect_to game_url(@game)
+    else
+      @game.destroy
+      render :new, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def set_game
@@ -26,6 +39,12 @@ class GamesController < ApplicationController
 
   def authorize_game
     render file: 'public/422', status: :forbidden unless @game.players.include?(current_player)
+  end
+
+  def game_params
+    params[:game][:status] = 'start'
+    params[:game][:moves_made] = 0
+    params.require(:game).permit(:nickname, :status, :moves_made)
   end
 
 end
