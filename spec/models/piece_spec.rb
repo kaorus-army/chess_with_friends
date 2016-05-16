@@ -381,12 +381,12 @@ RSpec.describe Piece, type: :model do
 
   describe "#move_to" do
 
-    let(:king) { create(:king, x_pos: 4, y_pos: 4, color:"white") }
+    let(:queen) { create(:queen, x_pos: 4, y_pos: 4, color:"white") }
 
-    it "should retrun true when space is occupied" do
-      blk_piece = king.game.pieces.create(x_pos: 3, y_pos: 4, color:"black")
-      expect(king.move_to([3,4])).to eq true
+    it "should retrun true when space is occupied and piece is oppsite color" do
+      blk_piece = queen.game.pieces.create(x_pos: 3, y_pos: 4, color:"black")
+      expect(queen.move_to([3,4])).to eq true
     end
 
-  end
+  end # describe #move_to
 end
