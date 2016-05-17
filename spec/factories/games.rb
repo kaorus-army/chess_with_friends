@@ -14,4 +14,5 @@ FactoryGirl.define do
     moves_made(0)
     status("start")
   end
+
 end

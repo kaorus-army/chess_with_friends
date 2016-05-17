@@ -157,4 +157,5 @@ class Piece < ActiveRecord::Base
   def move_is_diagonal?(end_coord)
     distance_from(end_coord, :horizontal) == distance_from(end_coord, :vertical)
   end
+
 end
