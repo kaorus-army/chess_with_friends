@@ -4,8 +4,8 @@ class Piece < ActiveRecord::Base
 
   # Validations
   validates :color, presence: true, inclusion: { in: ['white', 'black'] }
-  validates :x_pos, presence: true, numericality: { only_integer: true }, inclusion: { in: (0..7).to_a }
-  validates :y_pos, presence: true, numericality: { only_integer: true }, inclusion: { in: (0..7).to_a }
+  validates :x_pos, presence: true, numericality: { only_integer: true }, inclusion: { in: (0..8).to_a }
+  validates :y_pos, presence: true, numericality: { only_integer: true }, inclusion: { in: (0..8).to_a }
   validates :captured, inclusion: { in: [true, false] }
   validates :game, presence: true
 
@@ -20,7 +20,7 @@ class Piece < ActiveRecord::Base
     game.uncaptured_pieces.each do |piece|
       if end_coord == piece.coordinate
         if self.color != piece.color
-          piece.update_attributes(:x_pos => end_coord[9], :y_pos => end_coord[9], :captured => true)
+          piece.update_attributes(:x_pos => 8, :y_pos => 8, :captured => true)
         else
           return false
         end
