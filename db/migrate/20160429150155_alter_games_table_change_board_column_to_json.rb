@@ -1,6 +1,5 @@
-class AlterGamesTableChangeBoardColumnToJson < ActiveRecord::Migration
+class AlterGamesTableRemoveBoardColumn < ActiveRecord::Migration
   def change
     remove_column(:games, :board)
-    add_column(:games, :board, :json)
   end
 end

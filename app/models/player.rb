@@ -5,7 +5,7 @@ class Player < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # DB Relations
-  has_many :playerships
+  has_many :playerships, dependent: :destroy
   has_many :games, through: :playerships
 
   # Validations

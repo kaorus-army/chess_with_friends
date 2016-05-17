@@ -1,8 +1,12 @@
 Rails.application.routes.draw do
-  devise_for :players
+  devise_for :players, controllers: { registrations: 'registrations' }
   root :to => 'static_pages#index'
 
-  resources :games, only: [:show]
+  resources :games, only: [:index, :show, :new, :create, :destroy] do
+    member do
+      get :join
+    end
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
