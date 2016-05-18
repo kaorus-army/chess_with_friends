@@ -379,42 +379,65 @@ RSpec.describe Piece, type: :model do
 
   end # descibe #distance_from
 
-  describe "#move_to" do
+  describe "#capture" do
 
-    let(:queen) { create(:queen, x_pos: 4, y_pos: 4, color:"white") }
+    let(:queen) { create(:queen, x_pos: 2, y_pos: 2, color:"black") }
 
-    it "should retrun true if space is occupied by piece of oppsite color" do
-      blk_piece = queen.game.pieces.create(x_pos: 3, y_pos: 4, color:"black")
-      expect(queen.move_to([3,4])).to eq true
+    it "should give me the piece on the space" do
+      wht_piece = queen.game.pieces.create(x_pos: 4, y_pos: 4, color:"white")
+      expect(queen.capture([4,4])).to eq "help"
     end
 
-    it "should return false if space is occupied by piece of same color" do
-      wht_piece = queen.game.pieces.create(x_pos: 3, y_pos: 4, color:"white")
-    end
+    # it "should return false if space is occupied by piece of same color" do
+    #   wht_piece = queen.game.pieces.create(x_pos: 3, y_pos: 4, color:"white")
+    # end
+    #
+    # it "should set piece to captured" do
+    #   blk_piece = queen.game.pieces.create(x_pos: 3, y_pos: 4, color:"black")
+    #   queen.move_to([3,4])
+    #   expect(queen.game.pieces.where(x_pos: 8, y_pos: 8).length).to eq 1
+    # end
 
-    it "should remove captured pieces from database" do
-      blk_piece = queen.game.pieces.create(x_pos: 3, y_pos: 4, color:"black")
-      queen.move_to([3,4])
-      expect(queen.game.uncaptured_pieces.length).to eq 1
-    end
+   end # describe #capture?
 
-    it "should update piece location" do
-      queen.move_to([3,4])
-      expect(queen.coordinate).to eq [3,4]
-      queen.move_to([1,2])
-      expect(queen.coordinate).to eq [1,2]
-      queen.move_to([5,2])
-      expect(queen.coordinate).to eq [5,2]
-    end
+  # describe "#occupied_space?" do
+  #
+  #   let(:pawn) { create(:pawn, x_pos: 3, y_pos: 3 )}
+  #
+  #   it "should return true if space is occupied" do
+  #     expect(pawn.game.occupied_space?([3,3])).to eq true
+  #   end
+  #
+  #   it "should return false if space is unoccupied" do
+  #     expect(pawn.game.occupied_space?([0,0])).to eq false
+  #   end
+  # end
 
-    it "should update number of moves_made by piece" do
-      queen.move_to([3,4])
-      expect(queen.moves_made).to eq 1
-      queen.move_to([1,2])
-      expect(queen.moves_made).to eq 2
-      queen.move_to([5,2])
-      expect(queen.moves_made).to eq 3
-    end
 
-  end # describe #move_to
+  # describe "#move_to" do
+  #
+  #   let(:queen) { create(:queen, x_pos: 4, y_pos: 4, color:"white") }
+  #
+  #
+  #   it "should update piece location" do
+  #     queen.move_to([3,4])
+  #     expect(queen.coordinate).to eq [3,4]
+  #     queen.move_to([1,2])
+  #     expect(queen.coordinate).to eq [1,2]
+  #     queen.move_to([5,2])
+  #     expect(queen.coordinate).to eq [5,2]
+  #   end
+  #
+  #   it "should update number of moves_made by piece" do
+  #     queen.move_to([3,4])
+  #     expect(queen.moves_made).to eq 1
+  #     queen.move_to([1,2])
+  #     expect(queen.moves_made).to eq 2
+  #     queen.move_to([5,2])
+  #     expect(queen.moves_made).to eq 3
+  #   end
+  #
+  # end # describe #move_to
+
+
 end

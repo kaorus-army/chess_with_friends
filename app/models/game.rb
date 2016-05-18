@@ -14,6 +14,17 @@ class Game < ActiveRecord::Base
     pieces.where(captured: false)
   end
 
+  def occupied_space(end_coord)
+     occuping_piece = pieces.where(x_pos: end_coord[0], y_pos: end_coord[1])
+
+     if occuping_piece != nil
+       return occuping_piece
+     else
+       false
+     end
+
+  end
+
   def coordinate_conflict?(test_coords)
     uncaptured_pieces.each do |piece|
       return true if test_coords.include?(piece.coordinate)
