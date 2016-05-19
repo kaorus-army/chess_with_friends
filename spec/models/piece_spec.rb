@@ -379,4 +379,60 @@ RSpec.describe Piece, type: :model do
 
   end # descibe #distance_from
 
+  describe "#capture" do
+
+    let(:queen) { create(:queen, x_pos: 2, y_pos: 2, color:"black") }
+
+    it "should mark occupying_piece captured if it's a different color" do
+      wht_piece = queen.game.pieces.create(x_pos: 4, y_pos: 4, color:"white")
+      queen.capture([4,4])
+      expect(queen.game.pieces.where(captured: true).length).to eq 1
+    end
+
+    it "should return false if space is occupied by piece of same color" do
+      blk_piece = queen.game.pieces.create(x_pos: 4, y_pos: 4, color:"black")
+      expect(queen.capture([4,4])).to eq false
+    end
+
+    it "should set captured pieces to x_pos: 8, y_pos: 8" do
+      wht_piece = queen.game.pieces.create(x_pos: 4, y_pos: 4, color:"white")
+      queen.capture([4,4])
+      expect(queen.game.pieces.where(x_pos: 8, y_pos: 8).length).to eq 1
+    end
+
+   end # describe #capture?
+
+  describe "#move_to" do
+
+    let(:queen) { create(:queen, x_pos: 4, y_pos: 4, color:"black") }
+
+    it "should capture occupying_piece if it's a different color" do
+      wht_piece = queen.game.pieces.create(x_pos: 3, y_pos: 4, color:"white")
+      queen.move_to([3,4])
+      expect(queen.game.pieces.where(captured: true).length).to eq 1
+    end
+
+    it "should update piece location" do
+      queen.move_to([3,4])
+      expect(queen.coordinate).to eq [3,4]
+      queen.move_to([1,2])
+      expect(queen.coordinate).to eq [1,2]
+      queen.move_to([5,2])
+      expect(queen.coordinate).to eq [5,2]
+    end
+
+    it "should update number of moves_made by piece" do
+      queen.move_to([3,4])
+      expect(queen.moves_made).to eq 1
+      queen.move_to([1,2])
+      expect(queen.moves_made).to eq 2
+      queen.move_to([5,2])
+      expect(queen.moves_made).to eq 3
+    end
+
+
+
+  end # describe #move_to
+
+
 end

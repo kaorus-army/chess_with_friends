@@ -4,12 +4,39 @@ class Piece < ActiveRecord::Base
 
   # Validations
   validates :color, presence: true, inclusion: { in: ['white', 'black'] }
-  validates :x_pos, presence: true, numericality: { only_integer: true }, inclusion: { in: (0..7).to_a }
-  validates :y_pos, presence: true, numericality: { only_integer: true }, inclusion: { in: (0..7).to_a }
+  validates :x_pos, presence: true, numericality: { only_integer: true }, inclusion: { in: (0..8).to_a }
+  validates :y_pos, presence: true, numericality: { only_integer: true }, inclusion: { in: (0..8).to_a }
   validates :captured, inclusion: { in: [true, false] }
   validates :game, presence: true
 
   # Instance Methods
+
+  def move_to(end_coord)
+
+    #Check if move is vaild for Piece
+    return false unless self.valid_move?(end_coord)
+
+    #Check for piece to capture
+    capture(end_coord)
+
+    #Update piece location and move count
+    self.update_attributes(:x_pos => end_coord[0], :y_pos => end_coord[1], :moves_made => self.moves_made + 1)
+  end
+
+  def capture(end_coord)
+
+    #Look for piece in end_coord
+    occupying_piece = game.pieces.where(x_pos: end_coord[0], y_pos: end_coord[1]).first
+
+    if occupying_piece != nil
+      if self.color != occupying_piece.color
+        occupying_piece.update_attributes(:x_pos => 8, :y_pos => 8, :captured => true)
+      else
+        return false
+      end
+    end
+  end
+
 
   # This method can vary with different (inherited) pieces
   # This method will change in future revisions
@@ -76,7 +103,7 @@ class Piece < ActiveRecord::Base
   def obstructed_horizontal?(end_coord)
     # Get all coordinates between this piece's x_pos and the end_x_pos
     # Cycle through each uncaptured piece on the board
-      # If any piece's coordinate matches one in the list, return true
+    # If any piece's coordinate matches one in the list, return true
     # Return false if nothing gets returned from the loop
     end_x_pos = end_coord[0]
     test_coordinates = []
@@ -117,21 +144,21 @@ class Piece < ActiveRecord::Base
         count = count + 1
       end
 
-    #up - right
+      #up - right
     elsif self.x_pos < end_x_pos && self.y_pos > end_y_pos
       (spaces - 1).times do
         test_coordinates << [self.x_pos + count, self.y_pos - count]
         count = count + 1
       end
 
-    #down - left
+      #down - left
     elsif self.x_pos > end_x_pos && self.y_pos < end_y_pos
       (spaces - 1).times do
         test_coordinates << [self.x_pos - count, self.y_pos + count]
         count = count + 1
       end
 
-    #down - right
+      #down - right
     elsif self.x_pos < end_x_pos && self.y_pos < end_y_pos
       (spaces - 1).times do
         test_coordinates << [self.x_pos + count, self.y_pos + count]
