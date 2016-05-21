@@ -4,6 +4,9 @@
     <% 4.times do %>
       <% @board.each do |row| %>
         <% row.each do |col| %>
+           <% if @game.pieces(x_pos: row, y_pos: col).take.present? %>
+              <%= @game.pieces(x_pos: row, y_pos: col).take.representation.html_safe %>
+            <%end%>
           <% if col.even?%>
             <div class = 'white-space'></div>
           <% else %>
